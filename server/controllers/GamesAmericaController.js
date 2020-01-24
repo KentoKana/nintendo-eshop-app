@@ -12,25 +12,19 @@ class GamesAmericaController {
   }
 
   initRoutes = () => {
-    this.router.get("/GamesAmerica", this.gamesAmericaRoute);
+    this.router.get("/getAllGamesAmerica", this.getAllGamesAmerica);
   };
 
-  getAllGames = () => {
-    this.getGamesAmerica({ limit: 1 })
-      .then(data => {
-        // console.log(data);
-        return Promise.resolve(data);
-      })
-      .catch(e => {
-        console.log("Error", e);
-      });
-  };
-
-  gamesAmericaRoute = (req, res) => {
-    this.getGamesAmerica({ limit: 1 })
-      .then(data => {
-        // console.log(data);
-        return res.json({ data });
+  getAllGamesAmerica = (req, res) => {
+    let offset = 1;
+    let gamesPerPage = 10;
+    this.getGamesAmerica({ limit: gamesPerPage }, offset)
+      .then(games => {
+        return res.json({
+          offset: 1,
+          gamesPerPage: gamesPerPage,
+          games: games
+        });
       })
       .catch(e => {
         console.log("Error", e);
