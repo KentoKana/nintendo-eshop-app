@@ -2,26 +2,31 @@ const { getGamesAmerica } = require("nintendo-switch-eshop");
 const express = require("express");
 
 class GamesAmericaController {
-  path = "/GamesAmerica";
+  path = "/getGamesAmerica";
   router = express.Router();
   constructor() {
-    this.path = "/GamesAmerica";
+    this.path = "/getGamesAmerica";
     this.router = express.Router();
     this.getGamesAmerica = getGamesAmerica;
     this.initRoutes();
   }
 
   initRoutes = () => {
-    this.router.get("/getAllGamesAmerica", this.getAllGamesAmerica);
+    this.router.get("/getGamesAmerica", this.getAllGamesAmerica);
   };
 
   getAllGamesAmerica = (req, res) => {
-    let offset = 1;
-    let gamesPerPage = 10;
+    let offset;
+    let gamesPerPage = 1;
+
+    offset = req.query.offset
+      ? parseInt((offset = req.query.offset))
+      : (offset = 1);
+
     this.getGamesAmerica({ limit: gamesPerPage }, offset)
       .then(games => {
         return res.json({
-          offset: 1,
+          offset: offset,
           gamesPerPage: gamesPerPage,
           games: games
         });

@@ -1,7 +1,17 @@
 "use strict";
+
 // ---- Import Modules ---- //
 const express = require("express");
-const path = require("path");
+
+/**
+ * App Initializer Class.
+ *
+ * @param object {
+ *  @param port: int; Expects a number for the Express App to run at.
+ *  @param middlewares: array; Expects an array of middlewares
+ *  @param controllers: array; Expects an array of controllers
+ * }
+ */
 
 class EshopApp {
   constructor({ port, middlewares, controllers }) {
@@ -24,7 +34,7 @@ class EshopApp {
   };
 
   listen = () => {
-    this.app.listen(this.port, () => {
+    this.app.listen(this.port || process.env.port, () => {
       console.log(`Listening on port ${this.port}`);
     });
   };
